@@ -7,25 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using E_Commerce_App.Data;
 using E_Commerce_App.Models;
+using E_Commerce_App.Service.Interface;
 
 namespace E_Commerce_App.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly ECommerceDbContext _context;
+        private readonly ICategory _category;
 
-        public CategoriesController(ECommerceDbContext context)
+        public CategoriesController(ICategory category)
         {
-            _context = context;
+            _category = category;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.categories.ToListAsync());
+            return View(await _category.GetCategories());
         }
 
         // GET: Categories/Details/5
+        /*
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -149,5 +151,9 @@ namespace E_Commerce_App.Controllers
         {
             return _context.categories.Any(e => e.Id == id);
         }
+
+        */
+
     }
+
 }

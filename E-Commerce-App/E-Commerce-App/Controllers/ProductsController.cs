@@ -7,34 +7,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using E_Commerce_App.Data;
 using E_Commerce_App.Models;
+using E_Commerce_App.Service.Interface;
 
 namespace E_Commerce_App.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly ECommerceDbContext _context;
+        private readonly IProduct _product;
 
-        public ProductsController(ECommerceDbContext context)
+        public ProductsController(IProduct product)
         {
-            _context = context;
+            _product = product;
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        [Route("Products/Index/{CategoryId}")]
+        public async Task<IActionResult> Index(int CategoryId)
         {
-            return View(await _context.products.ToListAsync());
+            return View(await _product.GetProducts(CategoryId));
         }
 
-        // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Product/5
+        public async Task<IActionResult> GetProduct(int Id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            return View(await _product.GetProduct(Id));
+        }
 
-            var product = await _context.products
-                .FirstOrDefaultAsync(m => m.Id == id);
+        
+        // GET: Products/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var product = await _product.GetProduct(id);
             if (product == null)
             {
                 return NotFound();
@@ -43,6 +46,7 @@ namespace E_Commerce_App.Controllers
             return View(product);
         }
 
+        /*
         // GET: Products/Create
         public IActionResult Create()
         {
@@ -149,5 +153,6 @@ namespace E_Commerce_App.Controllers
         {
             return _context.products.Any(e => e.Id == id);
         }
+        */
     }
 }

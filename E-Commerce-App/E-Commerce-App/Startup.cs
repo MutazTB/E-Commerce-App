@@ -1,4 +1,6 @@
 using E_Commerce_App.Data;
+using E_Commerce_App.Service;
+using E_Commerce_App.Service.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +32,9 @@ namespace E_Commerce_App
 
             services.AddControllers()
                     .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddTransient<ICategory, CategoryRepo>();
+            services.AddTransient<IProduct, ProductRepo>();
 
             services.AddDbContext<ECommerceDbContext>(options => {
                 // Our DATABASE_URL from js days
