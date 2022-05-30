@@ -26,7 +26,7 @@ namespace E_Commerce_App.Controllers
             return View(await _category.GetCategories());
         }
 
-        // GET: Categories/Details/5
+        // GET: Categories/Details/5  test
         /*
         public async Task<IActionResult> Details(int? id)
         {
