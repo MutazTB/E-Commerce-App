@@ -17,6 +17,8 @@ namespace E_Commerce_App.Models
 
         public string ImageUrl { get; set; }
 
+        public int CategoryId { get; set; }
+
         public Category category { get; set; }
     }
 }

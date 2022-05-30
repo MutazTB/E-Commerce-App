@@ -10,7 +10,7 @@ namespace E_Commerce_App.Service.Interface
     {
         Task<Product> CreateProduct(Product Product);
 
-        Task<List<Product>> GetProducts();
+        Task<List<Product>> GetProducts(int? CategoryId);
 
         Task<Product> GetProduct(int Id);
 
