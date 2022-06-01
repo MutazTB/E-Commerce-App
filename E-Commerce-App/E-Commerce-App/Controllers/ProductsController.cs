@@ -20,10 +20,16 @@ namespace E_Commerce_App.Controllers
             _product = product;
         }
 
+        public async Task<IActionResult> AllProducts()
+        {
+            return View(await _product.GetAllProducts());
+        }
+
         // GET: Products
         [Route("Products/Index/{CategoryId}")]
         public async Task<IActionResult> Index(int CategoryId)
         {
+            ViewData["CategoryId"] = CategoryId;
             return View(await _product.GetProducts(CategoryId));
         }
 
@@ -46,7 +52,24 @@ namespace E_Commerce_App.Controllers
             return View(product);
         }
 
-        /*
+        
+        //public IActionResult CreateProduct()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> CreateProduct([Bind("Name,Price,Description,ImageUrl")] Product product)
+        //{
+
+        //    if (ModelState.IsValid)
+        //    {
+        //    }
+
+        //    return RedirectToAction("Index");
+        //}
+
         // GET: Products/Create
         public IActionResult Create()
         {
@@ -58,16 +81,24 @@ namespace E_Commerce_App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Description,ImageUrl")] Product product)
+        [Route("Products/Create/{categoryId}")]
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Description,ImageUrl")] Product product, int categoryId)
         {
+            //return Content("categoryId: " + categoryId);
+
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //_context.Add(product);
+                //await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
+
+                await _product.CreateProduct(product, categoryId);
             }
-            return View(product);
+
+            return RedirectToAction("Index", new { CategoryId = categoryId });
         }
+
+        /*
 
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
