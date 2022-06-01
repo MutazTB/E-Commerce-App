@@ -18,14 +18,22 @@ namespace E_Commerce_App.Service
             _context = context;
         }
 
-        public Task<Product> CreateProduct(Product Product)
+        public async Task<Product> CreateProduct(Product Product, int categoryId)
         {
-            throw new NotImplementedException();
+            Product.CategoryId = categoryId;
+            _context.Entry(Product).State = EntityState.Added;
+            await _context.SaveChangesAsync();
+            return Product;
         }
 
         public Task DeleteProduct(int Id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Product>> GetAllProducts()
+        {
+            return await _context.products.Include(x=>x.category).ToListAsync();
         }
 
         public async Task<Product> GetProduct(int Id)

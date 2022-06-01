@@ -26,6 +26,33 @@ namespace E_Commerce_App.Controllers
             return View(await _category.GetCategories());
         }
 
+        // GET: Categories/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Categories/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Name,Details")] Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                //_context.Add(category);
+                //await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
+
+                await _category.CreateCategory(category);
+                return RedirectToAction(nameof(Index));
+
+            }
+            return View(category);
+        }
+
+
         // GET: Categories/Details/5  test
         /*
         public async Task<IActionResult> Details(int? id)
@@ -42,28 +69,6 @@ namespace E_Commerce_App.Controllers
                 return NotFound();
             }
 
-            return View(category);
-        }
-
-        // GET: Categories/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Categories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Details")] Category category)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
             return View(category);
         }
 
