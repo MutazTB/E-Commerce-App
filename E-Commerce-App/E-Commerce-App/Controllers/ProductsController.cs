@@ -98,17 +98,17 @@ namespace E_Commerce_App.Controllers
             return RedirectToAction("Index", new { CategoryId = categoryId });
         }
 
-        /*
+       
 
         // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.products.FindAsync(id);
+            var product = await _product.GetProduct(id);
             if (product == null)
             {
                 return NotFound();
@@ -120,9 +120,10 @@ namespace E_Commerce_App.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description,ImageUrl")] Product product)
+        [ValidateAntiForgeryToken]        
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description,ImageUrl,CategoryId")] Product product)
         {
+            
             if (id != product.Id)
             {
                 return NotFound();
@@ -132,35 +133,26 @@ namespace E_Commerce_App.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                   var pro = await _product.UpdateProduct(id ,product);                    
                 }
                 catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                {                    
+                        return NotFound();                    
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { CategoryId = product.CategoryId });
             }
             return View(product);
         }
 
         // GET: Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.products
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _product.GetProduct(id);                
             if (product == null)
             {
                 return NotFound();
@@ -174,16 +166,15 @@ namespace E_Commerce_App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.products.FindAsync(id);
-            _context.products.Remove(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var product = await _product.GetProduct(id);
+             await _product.DeleteProduct(id);
+            return RedirectToAction("Index", new { CategoryId = product.CategoryId });
         }
 
-        private bool ProductExists(int id)
-        {
-            return _context.products.Any(e => e.Id == id);
-        }
-        */
+        //private bool ProductExists(int id)
+        //{
+        //    return _context.products.Any(e => e.Id == id);
+        //}
+        
     }
 }

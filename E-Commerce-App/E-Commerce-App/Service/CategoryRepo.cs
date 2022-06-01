@@ -27,9 +27,11 @@ namespace E_Commerce_App.Service
             return Category;
         }
 
-        public Task DeleteCategory(int Id)
+        public async Task DeleteCategory(int Id)
         {
-            throw new NotImplementedException();
+            Category category = await _context.categories.FindAsync(Id);
+            _context.Entry(category).State = EntityState.Deleted;
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Category>> GetCategories()
@@ -37,14 +39,22 @@ namespace E_Commerce_App.Service
             return await _context.categories.ToListAsync();
         }
 
-        public Task<Category> GetCategory(int Id)
+        public async Task<Category> GetCategory(int Id)
         {
-            throw new NotImplementedException();
+            return await _context.categories.FindAsync(Id);
         }
 
-        public Task<Category> UpdateCategory(int Id, Category Category)
+        public async Task<Category> UpdateCategory(int Id, Category Category)
         {
-            throw new NotImplementedException();
+            Category UpdatedCategory = new Category
+            {
+                Id = Category.Id,
+                Name = Category.Name,
+                Details = Category.Details                
+            };
+            _context.Entry(UpdatedCategory).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Category;
         }
     }
 }
