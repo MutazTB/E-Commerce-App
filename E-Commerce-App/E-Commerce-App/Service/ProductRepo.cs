@@ -26,9 +26,11 @@ namespace E_Commerce_App.Service
             return Product;
         }
 
-        public Task DeleteProduct(int Id)
+        public async Task DeleteProduct(int Id)
         {
-            throw new NotImplementedException();
+            Product product = await _context.products.FindAsync(Id);
+            _context.Entry(product).State = EntityState.Deleted;
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Product>> GetAllProducts()
@@ -46,9 +48,20 @@ namespace E_Commerce_App.Service
             return await _context.products.Where(x => x.CategoryId == CategoryId).ToListAsync();
         }
 
-        public Task<Product> UpdateProduct(int Id, Product Product)
+        public async Task<Product> UpdateProduct(int Id, Product Product)
         {
-            throw new NotImplementedException();
+            Product UpdatedProduct = new Product
+            {
+                Id = Product.Id,
+                Name = Product.Name,
+                Price = Product.Price,
+                ImageUrl = Product.ImageUrl,
+                Description = Product.Description,
+                CategoryId = Product.CategoryId
+            };
+            _context.Entry(UpdatedProduct).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Product;
         }
     }
 }

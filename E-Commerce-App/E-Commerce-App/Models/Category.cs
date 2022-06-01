@@ -15,6 +15,6 @@ namespace E_Commerce_App.Models
 
         public string Details { get; set; }
 
-        List<Product> products { get; set; }
+        public List<Product> products { get; set; }
     }
 }
