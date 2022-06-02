@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using E_Commerce_App.Data;
 using E_Commerce_App.Models;
 using E_Commerce_App.Service.Interface;
+using E_Commerce_App.Models.ViewModels;
 
 namespace E_Commerce_App.Controllers
 {
@@ -52,26 +53,40 @@ namespace E_Commerce_App.Controllers
             return View(product);
         }
 
-        
-        //public IActionResult CreateProduct()
-        //{
-        //    return View();
-        //}
+        public async Task<IActionResult> CreateProduct()
+        {
+            CreateProductVM viewModel = new CreateProductVM
+            {
+                Categories = await _product.GetCategories()
+            };
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> CreateProduct([Bind("Name,Price,Description,ImageUrl")] Product product)
-        //{
+            return View(viewModel);
+        }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateProduct([Bind("Name,Price,Description,ImageUrl,CategoryId")] CreateProductVM viewModel)
+    {
 
-        //    return RedirectToAction("Index");
-        //}
+        if (ModelState.IsValid)
+        {
+                Product product = new Product
+                {
+                    Name = viewModel.Name,
+                    Price = viewModel.Price,
+                    Description = viewModel.Description,
+                    ImageUrl = viewModel.ImageUrl
+                };
 
-        // GET: Products/Create
-        public IActionResult Create()
+            await _product.CreateProduct(product, viewModel.CategoryId);
+        }
+
+        return RedirectToAction("AllProducts");
+    }
+
+
+    // GET: Products/Create
+    public IActionResult Create()
         {
             return View();
         }

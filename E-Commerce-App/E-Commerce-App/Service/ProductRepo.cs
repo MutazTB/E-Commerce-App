@@ -63,5 +63,10 @@ namespace E_Commerce_App.Service
             await _context.SaveChangesAsync();
             return Product;
         }
+
+        public async Task<List<Category>> GetCategories()
+        {
+            return await _context.categories.ToListAsync();
+        }
     }
 }
