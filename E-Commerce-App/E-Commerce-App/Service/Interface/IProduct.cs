@@ -8,6 +8,7 @@ namespace E_Commerce_App.Service.Interface
 {
     public interface IProduct
     {
+        Task<List<Category>> GetCategories();
 
         Task<List<Product>> GetAllProducts();
 
