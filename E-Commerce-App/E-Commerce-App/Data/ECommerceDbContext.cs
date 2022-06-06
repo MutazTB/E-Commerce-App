@@ -1,4 +1,6 @@
 ﻿using E_Commerce_App.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce_App.Data
 {
-    public class ECommerceDbContext : DbContext
+    public class ECommerceDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Product> products { get; set; }
 
