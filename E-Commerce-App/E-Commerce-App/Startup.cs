@@ -1,9 +1,11 @@
 using E_Commerce_App.Data;
+using E_Commerce_App.Models;
 using E_Commerce_App.Service;
 using E_Commerce_App.Service.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +43,23 @@ namespace E_Commerce_App
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
                 options.UseSqlServer(connectionString);
             });
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<ECommerceDbContext>();
+
+            // failed trials - accessing paths
+            // new for Cookies auth
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/auth/index";
+            });
+            // Differences between JWT and cookies 
+            services.AddAuthentication();
+            services.AddAuthorization();
+            // Map the interface with the service
+            services.AddTransient<IUserService, IdentityUserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
