@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using E_Commerce_App.Data;
 using E_Commerce_App.Models;
 using E_Commerce_App.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 
 namespace E_Commerce_App.Controllers
 {
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ICategory _category;

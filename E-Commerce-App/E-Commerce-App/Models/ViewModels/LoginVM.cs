@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace E_Commerce_App.Models.DTOs
+namespace E_Commerce_App.Models.ViewModels
 {
-    public class RegisterUserDTO
+    public class LoginVM
     {
         [Required(ErrorMessage = "You have missed to fill the username")]
         [Display(Name = "User Name")]
@@ -15,8 +15,5 @@ namespace E_Commerce_App.Models.DTOs
 
         [Required]
         public string Password { get; set; }
-
-        [Required]
-        public string Email { get; set; }
     }
 }
