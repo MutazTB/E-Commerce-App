@@ -4,12 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace E_Commerce_App.Models.DTOs
+namespace E_Commerce_App.Models.ViewModels
 {
-    public class LoginDTO
+    public class LoginVM
     {
-        [Required]
-        public string Username { get; set; }
+        [Required(ErrorMessage = "Username is required!")]
+        [Display(Name = "User Name")]
+        [MinLength(3)]
+        public string UserName { get; set; }
 
         [Required]
         public string Password { get; set; }

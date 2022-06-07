@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace E_Commerce_App.Migrations
 {
-    public partial class identity : Migration
+    public partial class All_Migrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,20 @@ namespace E_Commerce_App.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Details = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,6 +166,54 @@ namespace E_Commerce_App.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_products_categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "categories",
+                columns: new[] { "Id", "Details", "Name" },
+                values: new object[] { 1, "Clothes", "Clothes" });
+
+            migrationBuilder.InsertData(
+                table: "categories",
+                columns: new[] { "Id", "Details", "Name" },
+                values: new object[] { 2, "Cars", "Cars" });
+
+            migrationBuilder.InsertData(
+                table: "products",
+                columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "Name", "Price" },
+                values: new object[] { 1, 1, "Jeans", "Jeans.Url", "Jeans", 12.0 });
+
+            migrationBuilder.InsertData(
+                table: "products",
+                columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "Name", "Price" },
+                values: new object[] { 2, 1, "Jeans", "Jeans.Url", "Jeans", 12.0 });
+
+            migrationBuilder.InsertData(
+                table: "products",
+                columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "Name", "Price" },
+                values: new object[] { 3, 2, "BMW", "BMW.Url", "BMW", 12000.0 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -190,6 +252,11 @@ namespace E_Commerce_App.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_products_CategoryId",
+                table: "products",
+                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -210,10 +277,16 @@ namespace E_Commerce_App.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "products");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "categories");
         }
     }
 }

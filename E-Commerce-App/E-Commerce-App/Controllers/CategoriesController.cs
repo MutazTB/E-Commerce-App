@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using E_Commerce_App.Data;
 using E_Commerce_App.Models;
 using E_Commerce_App.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 
 namespace E_Commerce_App.Controllers
 {
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ICategory _category;
@@ -27,6 +29,7 @@ namespace E_Commerce_App.Controllers
         }
 
         // GET: Categories/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -71,6 +74,7 @@ namespace E_Commerce_App.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Editor")]
         // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
@@ -115,6 +119,7 @@ namespace E_Commerce_App.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int id)
         {

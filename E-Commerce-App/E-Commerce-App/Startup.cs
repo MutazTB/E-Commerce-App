@@ -26,7 +26,6 @@ namespace E_Commerce_App
             Configuration = configuration;
         }        
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
@@ -35,11 +34,7 @@ namespace E_Commerce_App
             services.AddControllers()
                     .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddTransient<ICategory, CategoryRepo>();
-            services.AddTransient<IProduct, ProductRepo>();
-
             services.AddDbContext<ECommerceDbContext>(options => {
-                // Our DATABASE_URL from js days
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
                 options.UseSqlServer(connectionString);
             });
@@ -49,16 +44,8 @@ namespace E_Commerce_App
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<ECommerceDbContext>();
 
-            // failed trials - accessing paths
-            // new for Cookies auth
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.AccessDeniedPath = "/auth/index";
-            });
-            // Differences between JWT and cookies 
-            services.AddAuthentication();
-            services.AddAuthorization();
-            // Map the interface with the service
+            services.AddTransient<ICategory, CategoryRepo>();
+            services.AddTransient<IProduct, ProductRepo>();
             services.AddTransient<IUserService, IdentityUserService>();
         }
 
@@ -80,6 +67,7 @@ namespace E_Commerce_App
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

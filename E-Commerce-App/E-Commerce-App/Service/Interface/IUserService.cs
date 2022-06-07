@@ -1,4 +1,4 @@
-﻿using E_Commerce_App.Models.DTOs;
+﻿using E_Commerce_App.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
@@ -10,10 +10,10 @@ namespace E_Commerce_App.Service.Interface
 {
     public interface IUserService
     {
-        public Task<UserDTO> Register(RegisterUserDTO registerDto, ModelStateDictionary modelstate);
+        public Task Register(RegisterVM viewModel);
 
-        public Task<UserDTO> Authenticate(string username, string password);
-        
-        public Task<UserDTO> GetUser(ClaimsPrincipal principal);
+        public Task Login(LoginVM viewModel);
+
+        public Task Logout();
     }
 }

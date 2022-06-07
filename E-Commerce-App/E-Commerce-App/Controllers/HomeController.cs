@@ -25,7 +25,14 @@ namespace E_Commerce_App.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return Content("Authenticated");
+            }
+            else
+            {
+                return Content("NOT Authenticated");
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

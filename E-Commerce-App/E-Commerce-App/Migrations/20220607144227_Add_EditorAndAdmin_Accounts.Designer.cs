@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce_App.Migrations
 {
     [DbContext(typeof(ECommerceDbContext))]
-    [Migration("20220606160146_identity")]
-    partial class identity
+    [Migration("20220607144227_Add_EditorAndAdmin_Accounts")]
+    partial class Add_EditorAndAdmin_Accounts
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,6 +84,40 @@ namespace E_Commerce_App.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a18be9c0",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c3c686c8-573d-40bc-ac9e-77cf69ad9433",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "admin@gmail.com",
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAEH8K+SkukcRqtnTZSTk8mp+KhnX2YMueM2zkFVssakL+2xmq3kkUUfZOR+IqdcHO6A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = "a50ze710",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8c31c88e-a2f4-4ced-8eb9-c9806ef6bdbe",
+                            Email = "editor@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "editor@gmail.com",
+                            NormalizedUserName = "editor",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMmx68jQJXajOpQ0gx6QN5bFQD9A+gE+nFUfRjw6PGzNLstXBf8MvKmSAaIE83gH5A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "editor"
+                        });
                 });
 
             modelBuilder.Entity("E_Commerce_App.Models.Category", b =>
@@ -203,6 +237,22 @@ namespace E_Commerce_App.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ad376a8f",
+                            ConcurrencyStamp = "3e92001f-f5ac-4c23-9654-977b0032cde8",
+                            Name = "Admin",
+                            NormalizedName = "Admin"
+                        },
+                        new
+                        {
+                            Id = "bd586a8f",
+                            ConcurrencyStamp = "a986b043-b538-4242-9dcf-5e214d8c7088",
+                            Name = "Editor",
+                            NormalizedName = "Editor"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -288,6 +338,18 @@ namespace E_Commerce_App.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "a18be9c0",
+                            RoleId = "ad376a8f"
+                        },
+                        new
+                        {
+                            UserId = "a50ze710",
+                            RoleId = "bd586a8f"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

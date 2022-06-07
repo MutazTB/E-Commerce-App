@@ -1,12 +1,8 @@
 ﻿using E_Commerce_App.Models;
-using E_Commerce_App.Models.DTOs;
+using E_Commerce_App.Models.ViewModels;
 using E_Commerce_App.Service.Interface;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace E_Commerce_App.Service
@@ -14,80 +10,43 @@ namespace E_Commerce_App.Service
     public class IdentityUserService : IUserService
     {
         private UserManager<ApplicationUser> _userManager;
-        // remove the JwtToken Service and use the signInManager
         private SignInManager<ApplicationUser> _signInManager;
+        private RoleManager<IdentityRole> _roleManager;
 
-        // replace JWT with signInmanager
-        public IdentityUserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> SignInMngr)
+
+        public IdentityUserService(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
-            _signInManager = SignInMngr;
-        }
-        public async Task<UserDTO> Register(RegisterUserDTO registerDto, ModelStateDictionary modelstate)
-        {
-            var user = new ApplicationUser
-            {
-                UserName = registerDto.UserName,
-                Email = registerDto.Email
-            };
-
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
-
-            if (result.Succeeded)
-            {
-                // here goes the roles specifications ... 
-                return new UserDTO
-                {
-                    Username = user.UserName,
-                };
-            }
-            // // Else, that means there is an error, let us collect all the errors using the modelState
-            foreach (var error in result.Errors)
-            {
-                var errorKey =
-                    error.Code.Contains("Password") ? "Password Issue" :
-                    error.Code.Contains("Email") ? "Email Issue" :
-                    error.Code.Contains("UserName") ? nameof(registerDto.UserName) :
-                    "";
-
-                modelstate.AddModelError(errorKey, error.Description);
-            }
-            return null;
-
+            _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
-
-        // Updated 
-        public async Task<UserDTO> Authenticate(string username, string password)
+        public async Task Login(LoginVM viewModel)
         {
-            // replace the usage of the userManager and use the signinmanager
-            var result = await _signInManager.PasswordSignInAsync(username, password, true, false);
+            var result = await _signInManager.PasswordSignInAsync(viewModel.UserName, viewModel.Password, true, false);
 
-            // get the user from the user manager after successfully operating login
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                var user = await _userManager.FindByNameAsync(username);
-                return new UserDTO
-                {
-                    Username = user.UserName
-                };
+                throw new Exception("Something went wrong. Login failed");
             }
-
-            //if (await _userManager.CheckPasswordAsync(user, password))
-            //{
-
-            //}
-
-            return null;
         }
 
-        public async Task<UserDTO> GetUser(ClaimsPrincipal principal)
+        public async Task Register(RegisterVM model)
         {
-            var user = await _userManager.GetUserAsync(principal);
-            return new UserDTO
+            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
             {
-                Username = user.UserName
-            };
+                throw new Exception("Feild");
+            }
+        }
+
+        public async Task Logout()
+        {
+            await _signInManager.SignOutAsync();
         }
     }
 }

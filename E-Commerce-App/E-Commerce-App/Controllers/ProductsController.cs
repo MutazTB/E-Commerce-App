@@ -9,6 +9,7 @@ using E_Commerce_App.Data;
 using E_Commerce_App.Models;
 using E_Commerce_App.Service.Interface;
 using E_Commerce_App.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace E_Commerce_App.Controllers
 {
@@ -53,6 +54,8 @@ namespace E_Commerce_App.Controllers
             return View(product);
         }
 
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProduct()
         {
             CreateProductVM viewModel = new CreateProductVM
@@ -63,9 +66,9 @@ namespace E_Commerce_App.Controllers
             return View(viewModel);
         }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateProduct([Bind("Name,Price,Description,ImageUrl,CategoryId")] CreateProductVM viewModel)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateProduct([Bind("Name,Price,Description,ImageUrl,CategoryId")] CreateProductVM viewModel)
     {
 
         if (ModelState.IsValid)
@@ -85,8 +88,9 @@ namespace E_Commerce_App.Controllers
     }
 
 
-    // GET: Products/Create
-    public IActionResult Create()
+        [Authorize(Roles = "Admin")]
+        // GET: Products/Create
+        public IActionResult Create()
         {
             return View();
         }
@@ -113,9 +117,8 @@ namespace E_Commerce_App.Controllers
             return RedirectToAction("Index", new { CategoryId = categoryId });
         }
 
-       
-
         // GET: Products/Edit/5
+        [Authorize(Roles = "Editor")]
         public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
@@ -160,6 +163,7 @@ namespace E_Commerce_App.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
