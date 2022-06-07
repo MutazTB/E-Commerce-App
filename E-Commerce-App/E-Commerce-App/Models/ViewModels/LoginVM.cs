@@ -8,7 +8,7 @@ namespace E_Commerce_App.Models.ViewModels
 {
     public class LoginVM
     {
-        [Required(ErrorMessage = "You have missed to fill the username")]
+        [Required(ErrorMessage = "Username is required!")]
         [Display(Name = "User Name")]
         [MinLength(3)]
         public string UserName { get; set; }

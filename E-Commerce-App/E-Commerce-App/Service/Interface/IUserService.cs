@@ -10,8 +10,10 @@ namespace E_Commerce_App.Service.Interface
 {
     public interface IUserService
     {
-        public Task Register(RegisterVM viewModel, ModelStateDictionary modelstate);
+        public Task Register(RegisterVM viewModel);
 
-        public Task Login(LoginVM viewModel, ModelStateDictionary modelstate);
+        public Task Login(LoginVM viewModel);
+
+        public Task Logout();
     }
 }

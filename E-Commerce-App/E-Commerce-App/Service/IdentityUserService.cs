@@ -1,12 +1,8 @@
 ﻿using E_Commerce_App.Models;
-using E_Commerce_App.Models.DTOs;
+using E_Commerce_App.Models.ViewModels;
 using E_Commerce_App.Service.Interface;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace E_Commerce_App.Service
@@ -27,49 +23,24 @@ namespace E_Commerce_App.Service
             _roleManager = roleManager;
         }
 
-        public async Task Login(LoginVM viewModel, ModelStateDictionary modelState)
+        public async Task Login(LoginVM viewModel)
         {
-            var user = await _userManager.FindByNameAsync(viewModel.UserName);
-
-            if (user == null)
-            {
-                throw new Exception("User is null");
-            }
-
-            var result = await _signInManager.PasswordSignInAsync(user, viewModel.Password, false, false);
-
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
-            }
-            else
-            {
-                modelState.AddModelError(string.Empty, "Invalid Login");
-            }
-
-        }
-
-        public async Task Register(RegisterVM data, ModelStateDictionary modelState)
-        {
-            var user = new ApplicationUser
-            {
-                UserName = data.UserName,
-                Email = data.Email,
-            };
-
-            var result = await _userManager.CreateAsync(user, data.Password);
+            var result = await _signInManager.PasswordSignInAsync(viewModel.UserName, viewModel.Password, true, false);
 
             if (!result.Succeeded)
             {
-                foreach (var error in result.Errors)
-                {
-                    var errorKey =
-                        error.Code.Contains("Password") ? nameof(data.Password) :
-                        error.Code.Contains("Email") ? nameof(data.Email) :
-                        error.Code.Contains("UserName") ? nameof(data.UserName) :
-                        "";
-                    modelState.AddModelError(errorKey, error.Description);
-                }
+                throw new Exception("Something went wrong. Login failed");
+            }
+        }
+
+        public async Task Register(RegisterVM model)
+        {
+            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Feild");
             }
         }
 

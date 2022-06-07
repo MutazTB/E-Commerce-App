@@ -8,15 +8,17 @@ namespace E_Commerce_App.Models.ViewModels
 {
     public class RegisterVM
     {
-        [Required(ErrorMessage = "You have missed to fill the username")]
-        [Display(Name = "User Name")]
-        [MinLength(3)]
+        [Required]
         public string UserName { get; set; }
 
         [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required, DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required]
-        public string Email { get; set; }
+        [DataType(DataType.Password), Compare(nameof(Password))]
+        public string ConfirmPassword { get; set; }
     }
 }

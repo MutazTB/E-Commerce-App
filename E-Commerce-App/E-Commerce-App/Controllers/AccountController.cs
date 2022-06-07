@@ -1,51 +1,69 @@
-﻿using E_Commerce_App.Models.DTOs;
+﻿using E_Commerce_App.Models.ViewModels;
 using E_Commerce_App.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace E_Commerce_App.Controllers
 {
     public class AccountController : Controller
     {
-        private IUserService userService;
+        private IUserService _user;
 
-        public AccountController(IUserService userSer)
+        public AccountController(IUserService user)
         {
-            userService = userSer;
-        }
-        public IActionResult Index()
-        {
-            return View();
+            _user = user;
         }
 
-        public IActionResult SignUp()
+        public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> SignUp(RegisterUserDTO register)
+        public async Task<IActionResult> Register(RegisterVM viewModel)
         {
-            var user = await userService.Register(register, this.ModelState);
-            if (ModelState.IsValid)
+            try
             {
-                return Redirect("/");
+                await _user.Register(viewModel);
             }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+
+            return View("Login");
+        }
+
+        public IActionResult Login()
+        {
             return View();
         }
 
-
-        public async Task<ActionResult<UserDTO>> Authenticate(LoginDTO login)
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM viewModel)
         {
-            var user = await userService.Authenticate(login.Username, login.Password);
-            if (user == null)
+            try
             {
-                return RedirectToAction("Index");
+                await _user.Login(viewModel);
             }
-            return Redirect("/");
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _user.Logout();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return Content("UnAuthorized");
         }
 
     }
