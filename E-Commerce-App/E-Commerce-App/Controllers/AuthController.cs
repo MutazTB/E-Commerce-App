@@ -37,7 +37,7 @@ namespace E_Commerce_App.Controllers
         [HttpPost("Signin")]
         public async Task<ActionResult<UserDTO>> Signin(LoginDTO data)
         {
-            var user = await _userService.Authenticate(data.Username, data.Password);
+            var user = await _userService.Authenticate(data.UserName, data.Password);
 
             if (user == null)
             {
