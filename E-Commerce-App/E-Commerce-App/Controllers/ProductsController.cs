@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace E_Commerce_App.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly IProduct _product;
@@ -28,11 +29,13 @@ namespace E_Commerce_App.Controllers
             _configuration = configuration;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> AllProducts()
         {
             return View(await _product.GetAllProducts());
         }
 
+        [AllowAnonymous]
         // GET: Products
         [Route("Products/Index/{CategoryId}")]
         public async Task<IActionResult> Index(int CategoryId)
@@ -41,13 +44,14 @@ namespace E_Commerce_App.Controllers
             return View(await _product.GetProducts(CategoryId));
         }
 
+        [AllowAnonymous]
         // GET: Product/5
         public async Task<IActionResult> GetProduct(int Id)
         {
             return View(await _product.GetProduct(Id));
         }
 
-        
+        [AllowAnonymous]
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int id)
         {
@@ -132,7 +136,7 @@ namespace E_Commerce_App.Controllers
         }
 
         // GET: Products/Edit/5
-        [Authorize(Roles = "Editor")]
+        [Authorize(Roles = "Editor,Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             if (id == null)

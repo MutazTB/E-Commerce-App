@@ -194,8 +194,8 @@ namespace E_Commerce_App.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ad376a8f", "7afbc4f3-cb18-4764-831c-5822859286e4", "Admin", "Admin" },
-                    { "bd586a8f", "7eb464ac-f987-453c-b63a-b2b86d3d1710", "Editor", "Editor" }
+                    { "ad376a8f", "b80859f2-040b-43bc-a896-45941e03da60", "Admin", "Admin" },
+                    { "bd586a8f", "eaf2d6d1-998f-4bb0-89c9-e58480c7d0b7", "Editor", "Editor" }
                 });
 
             migrationBuilder.InsertData(
@@ -203,8 +203,8 @@ namespace E_Commerce_App.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "a18be9c0", 0, "bb281bcb-cb6d-4403-8fc9-dbb67b19241a", "admin@gmail.com", false, false, null, "admin@gmail.com", "admin", "AQAAAAEAACcQAAAAEHpco15hQCWFSG0Yfi9RWoO654gDFYDYhNFx05f0kGyXIAqDtvruwhmjrNONktTHJw==", null, false, "", false, "admin" },
-                    { "a50ze710", 0, "e0965d61-aa8b-4b32-b9ec-240822ac2400", "editor@gmail.com", false, false, null, "editor@gmail.com", "editor", "AQAAAAEAACcQAAAAEMl/smgv/I6PB/iO0lN05h/tPp/wyQdcrBTt1j0dquZpXoelLJDpeu/dp9qmBEWOHQ==", null, false, "", false, "editor" }
+                    { "a18be9c0", 0, "50444de2-b925-4d56-92ce-ac7b01e731c8", "admin@gmail.com", false, false, null, "admin@gmail.com", "admin", "AQAAAAEAACcQAAAAECpkiQ8p0/vDeCxxYezsmDOOHqhLdfvIETM/U7fuCvzNLcyWRjks1omNLOJL0C0jig==", null, false, "", false, "admin" },
+                    { "a50ze710", 0, "0b32b100-210e-40e3-bb95-fbbc3742cdbc", "editor@gmail.com", false, false, null, "editor@gmail.com", "editor", "AQAAAAEAACcQAAAAEHo5Jw1O5jbU457sO0qBZY1IVr4KO/LULEIUhZzt0TlzhKrlWDSQ1MnXBDbJJF8qzQ==", null, false, "", false, "editor" }
                 });
 
             migrationBuilder.InsertData(
