@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace E_Commerce_App.Migrations
 {
-    public partial class All_Migrations : Migration
+    public partial class ECommerce_App : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -190,29 +190,50 @@ namespace E_Commerce_App.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "categories",
-                columns: new[] { "Id", "Details", "Name" },
-                values: new object[] { 1, "Clothes", "Clothes" });
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "ad376a8f", "7afbc4f3-cb18-4764-831c-5822859286e4", "Admin", "Admin" },
+                    { "bd586a8f", "7eb464ac-f987-453c-b63a-b2b86d3d1710", "Editor", "Editor" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "a18be9c0", 0, "bb281bcb-cb6d-4403-8fc9-dbb67b19241a", "admin@gmail.com", false, false, null, "admin@gmail.com", "admin", "AQAAAAEAACcQAAAAEHpco15hQCWFSG0Yfi9RWoO654gDFYDYhNFx05f0kGyXIAqDtvruwhmjrNONktTHJw==", null, false, "", false, "admin" },
+                    { "a50ze710", 0, "e0965d61-aa8b-4b32-b9ec-240822ac2400", "editor@gmail.com", false, false, null, "editor@gmail.com", "editor", "AQAAAAEAACcQAAAAEMl/smgv/I6PB/iO0lN05h/tPp/wyQdcrBTt1j0dquZpXoelLJDpeu/dp9qmBEWOHQ==", null, false, "", false, "editor" }
+                });
 
             migrationBuilder.InsertData(
                 table: "categories",
                 columns: new[] { "Id", "Details", "Name" },
-                values: new object[] { 2, "Cars", "Cars" });
+                values: new object[,]
+                {
+                    { 1, "Clothes", "Clothes" },
+                    { 2, "Cars", "Cars" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "ad376a8f", "a18be9c0" },
+                    { "bd586a8f", "a50ze710" }
+                });
 
             migrationBuilder.InsertData(
                 table: "products",
                 columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "Name", "Price" },
-                values: new object[] { 1, 1, "Jeans", "Jeans.Url", "Jeans", 12.0 });
-
-            migrationBuilder.InsertData(
-                table: "products",
-                columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "Name", "Price" },
-                values: new object[] { 2, 1, "Jeans", "Jeans.Url", "Jeans", 12.0 });
-
-            migrationBuilder.InsertData(
-                table: "products",
-                columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "Name", "Price" },
-                values: new object[] { 3, 2, "BMW", "BMW.Url", "BMW", 12000.0 });
+                values: new object[,]
+                {
+                    { 1, 1, "Jeans", "Jeans.Url", "Jeans", 12.0 },
+                    { 2, 1, "Jeans", "Jeans.Url", "Jeans", 12.0 },
+                    { 3, 2, "BMW", "BMW.Url", "BMW", 12000.0 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

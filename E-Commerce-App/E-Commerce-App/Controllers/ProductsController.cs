@@ -10,16 +10,22 @@ using E_Commerce_App.Models;
 using E_Commerce_App.Service.Interface;
 using E_Commerce_App.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace E_Commerce_App.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly IProduct _product;
+        private readonly IConfiguration _configuration;
 
-        public ProductsController(IProduct product)
+        public ProductsController(IProduct product , IConfiguration configuration)
         {
             _product = product;
+            _configuration = configuration;
         }
 
         public async Task<IActionResult> AllProducts()
@@ -68,23 +74,31 @@ namespace E_Commerce_App.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProduct([Bind("Name,Price,Description,ImageUrl,CategoryId")] CreateProductVM viewModel)
-    {
-
-        if (ModelState.IsValid)
+        public async Task<IActionResult> CreateProduct(Product viewModel, IFormFile file)
         {
-                Product product = new Product
-                {
-                    Name = viewModel.Name,
-                    Price = viewModel.Price,
-                    Description = viewModel.Description,
-                    ImageUrl = viewModel.ImageUrl
-                };
 
-            await _product.CreateProduct(product, viewModel.CategoryId);
-        }
+            BlobContainerClient container = new BlobContainerClient(_configuration.GetConnectionString("AzureBlob"), "images");
+            await container.CreateIfNotExistsAsync();
+            BlobClient blob = container.GetBlobClient(file.FileName);
+            using var stream = file.OpenReadStream();
 
-        return RedirectToAction("AllProducts");
+            BlobUploadOptions options = new BlobUploadOptions()
+            {
+                HttpHeaders = new BlobHttpHeaders() { ContentType = file.ContentType }
+            };
+            if (!blob.Exists())
+            {
+                await blob.UploadAsync(stream, options);
+            }
+
+            viewModel.ImageUrl = blob.Uri.ToString();
+            if (ModelState.IsValid)
+            {                
+            await _product.CreateProduct(viewModel, viewModel.CategoryId);             
+            }
+            stream.Close();
+
+            return RedirectToAction("AllProducts");
     }
 
 
@@ -101,7 +115,7 @@ namespace E_Commerce_App.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Products/Create/{categoryId}")]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Description,ImageUrl")] Product product, int categoryId)
+        public async Task<IActionResult> Create(Product product, int categoryId)
         {
             //return Content("categoryId: " + categoryId);
 
@@ -139,8 +153,23 @@ namespace E_Commerce_App.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]        
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description,ImageUrl,CategoryId")] Product product)
+        public async Task<IActionResult> Edit(int id,Product product, IFormFile file)
         {
+            BlobContainerClient container = new BlobContainerClient(_configuration.GetConnectionString("AzureBlob"), "images");
+            await container.CreateIfNotExistsAsync();
+            BlobClient blob = container.GetBlobClient(file.FileName);
+            using var stream = file.OpenReadStream();
+
+            BlobUploadOptions options = new BlobUploadOptions()
+            {
+                HttpHeaders = new BlobHttpHeaders() { ContentType = file.ContentType }
+            };
+            if (!blob.Exists())
+            {
+                await blob.UploadAsync(stream, options);
+            }
+
+            product.ImageUrl = blob.Uri.ToString();
             
             if (id != product.Id)
             {
@@ -159,6 +188,7 @@ namespace E_Commerce_App.Controllers
                 }
                 return RedirectToAction("Index", new { CategoryId = product.CategoryId });
             }
+            stream.Close();
             return View(product);
         }
 
