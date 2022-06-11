@@ -30,7 +30,7 @@ namespace E_Commerce_App
         {
             services.AddControllersWithViews();
             services.AddControllers();
-
+            services.AddMvc();
             services.AddControllers()
                     .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 

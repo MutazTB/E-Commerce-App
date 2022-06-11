@@ -1,5 +1,8 @@
+using E_Commerce_App.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,7 +16,22 @@ namespace E_Commerce_App
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            UpdateDatabase(host.Services);
+
+            host.Run();
+        }
+
+        private static void UpdateDatabase(IServiceProvider services)
+        {
+            using (var serviceScope = services.CreateScope())
+            {
+                using (var db = serviceScope.ServiceProvider.GetService<ECommerceDbContext>())
+                {
+                    db.Database.Migrate();
+                }
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
