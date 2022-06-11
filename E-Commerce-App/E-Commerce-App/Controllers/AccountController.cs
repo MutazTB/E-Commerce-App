@@ -23,13 +23,19 @@ namespace E_Commerce_App.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             try
             {
                 await _user.Register(viewModel);
             }
             catch (Exception e)
             {
-                return Content(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
             }
 
             return View("Login");
@@ -43,13 +49,19 @@ namespace E_Commerce_App.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             try
             {
                 await _user.Login(viewModel);
             }
             catch (Exception e)
             {
-                return Content(e.Message);
+                ModelState.AddModelError("", e.Message);
+                return View();
             }
 
             return RedirectToAction("Index", "Home");
@@ -63,7 +75,7 @@ namespace E_Commerce_App.Controllers
 
         public IActionResult AccessDenied()
         {
-            return Content("UnAuthorized");
+            return RedirectToAction("Login");
         }
 
     }

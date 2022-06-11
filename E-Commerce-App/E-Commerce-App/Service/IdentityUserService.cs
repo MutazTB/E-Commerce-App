@@ -1,4 +1,5 @@
-﻿using E_Commerce_App.Models;
+﻿using E_Commerce_App.Data;
+using E_Commerce_App.Models;
 using E_Commerce_App.Models.ViewModels;
 using E_Commerce_App.Service.Interface;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +13,6 @@ namespace E_Commerce_App.Service
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
         private RoleManager<IdentityRole> _roleManager;
-
 
         public IdentityUserService(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -29,7 +29,7 @@ namespace E_Commerce_App.Service
 
             if (!result.Succeeded)
             {
-                throw new Exception("Something went wrong. Login failed");
+                throw new Exception("Wrong username or password!");
             }
         }
 
@@ -40,7 +40,7 @@ namespace E_Commerce_App.Service
 
             if (!result.Succeeded)
             {
-                throw new Exception("Feild");
+                throw new Exception("Something went wrong!");
             }
         }
 

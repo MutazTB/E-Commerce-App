@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce_App.Migrations
 {
     [DbContext(typeof(ECommerceDbContext))]
-    [Migration("20220610134340_ECommerce_App")]
+    [Migration("20220611175709_ECommerce_App")]
     partial class ECommerce_App
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,13 +90,13 @@ namespace E_Commerce_App.Migrations
                         {
                             Id = "a18be9c0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bb281bcb-cb6d-4403-8fc9-dbb67b19241a",
+                            ConcurrencyStamp = "50444de2-b925-4d56-92ce-ac7b01e731c8",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHpco15hQCWFSG0Yfi9RWoO654gDFYDYhNFx05f0kGyXIAqDtvruwhmjrNONktTHJw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECpkiQ8p0/vDeCxxYezsmDOOHqhLdfvIETM/U7fuCvzNLcyWRjks1omNLOJL0C0jig==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -106,13 +106,13 @@ namespace E_Commerce_App.Migrations
                         {
                             Id = "a50ze710",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e0965d61-aa8b-4b32-b9ec-240822ac2400",
+                            ConcurrencyStamp = "0b32b100-210e-40e3-bb95-fbbc3742cdbc",
                             Email = "editor@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "editor@gmail.com",
                             NormalizedUserName = "editor",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMl/smgv/I6PB/iO0lN05h/tPp/wyQdcrBTt1j0dquZpXoelLJDpeu/dp9qmBEWOHQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHo5Jw1O5jbU457sO0qBZY1IVr4KO/LULEIUhZzt0TlzhKrlWDSQ1MnXBDbJJF8qzQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -242,14 +242,14 @@ namespace E_Commerce_App.Migrations
                         new
                         {
                             Id = "ad376a8f",
-                            ConcurrencyStamp = "7afbc4f3-cb18-4764-831c-5822859286e4",
+                            ConcurrencyStamp = "b80859f2-040b-43bc-a896-45941e03da60",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
                             Id = "bd586a8f",
-                            ConcurrencyStamp = "7eb464ac-f987-453c-b63a-b2b86d3d1710",
+                            ConcurrencyStamp = "eaf2d6d1-998f-4bb0-89c9-e58480c7d0b7",
                             Name = "Editor",
                             NormalizedName = "Editor"
                         });

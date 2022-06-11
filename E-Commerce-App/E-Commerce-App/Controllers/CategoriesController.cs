@@ -22,6 +22,7 @@ namespace E_Commerce_App.Controllers
             _category = category;
         }
 
+        [AllowAnonymous]
         // GET: Categories
         public async Task<IActionResult> Index()
         {
@@ -55,9 +56,8 @@ namespace E_Commerce_App.Controllers
             return View(category);
         }
 
-
-        // GET: Categories/Details/5  test
-       
+        [AllowAnonymous]
+        // GET: Categories/Details/5  test       
         public async Task<IActionResult> Details(int id)
         {
             if (id == null)
@@ -74,7 +74,7 @@ namespace E_Commerce_App.Controllers
             return View(category);
         }
 
-        [Authorize(Roles = "Editor")]
+        [Authorize(Roles = "Editor,Admin")]
         // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
