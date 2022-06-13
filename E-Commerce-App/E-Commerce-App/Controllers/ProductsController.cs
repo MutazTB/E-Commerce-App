@@ -224,10 +224,25 @@ namespace E_Commerce_App.Controllers
             return RedirectToAction("Index", new { CategoryId = product.CategoryId });
         }
 
-        //private bool ProductExists(int id)
-        //{
-        //    return _context.products.Any(e => e.Id == id);
-        //}
+        public async Task<IActionResult> AddToCart(int id)
+        {
+            // this is used to save the previous URL
+            string urlAnterior = Request.Headers["Referer"].ToString();
+
+            Product product = await _product.GetProduct(id);
+
+            if(product == null)
+            {
+                throw new Exception("Product is null");
+            }
+
+            //CartVM vm = new CartVM();
+
+            //vm.Products.Add(product);
+            CartVM.Products.Add(product);
+
+            return Redirect(urlAnterior);
+        }
         
     }
 }
