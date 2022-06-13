@@ -13,12 +13,7 @@ namespace E_Commerce_App.Controllers
     {
         public IActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return View("Welcome");
-            }
-
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Index", "Categories");
         }
     }
 }
