@@ -35,12 +35,22 @@ namespace E_Commerce_App.Service
 
         public async Task Register(RegisterVM model)
         {
+            if (await _userManager.FindByNameAsync(model.UserName) != null)
+            {
+                throw new Exception("Username is used before.");
+            }
+
+            if (await _userManager.FindByEmailAsync(model.Email) != null)
+            {
+                throw new Exception("Email is used before.");
+            }
+
             var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
-                throw new Exception("Something went wrong!");
+                throw new Exception("Something went wrong!\nMake sure the password has small letters, capital letters, numbers, and symbols!");
             }
         }
 
