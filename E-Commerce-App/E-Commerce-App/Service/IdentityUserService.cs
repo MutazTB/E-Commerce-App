@@ -56,6 +56,7 @@ namespace E_Commerce_App.Service
 
         public async Task Logout()
         {
+            CartVM.Products.Clear();
             await _signInManager.SignOutAsync();
         }
     }

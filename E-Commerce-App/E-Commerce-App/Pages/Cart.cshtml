@@ -1,0 +1,22 @@
+﻿@page
+@model E_Commerce_App.Pages.CartModel
+@{
+}
+<h2>@Model.Name Cart Products</h2>
+
+
+@if(Model.Products.Count == 0)
+{
+	<p>There is no products...</p>
+}
+else
+{
+	@foreach (var item in Model.Products)
+	{
+		<ul>
+			<li>
+				@item.Name
+			</li>
+		</ul>
+	}
+}

@@ -13,7 +13,7 @@ namespace E_Commerce_App.Models.ViewModels
         [MinLength(3)]
         public string UserName { get; set; }
 
-        [Required]
+        [Required, DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }
