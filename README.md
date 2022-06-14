@@ -30,5 +30,5 @@ A website that allows people to buy and sell physical goods, services, and digit
 <br>
 ## Cart Page
 ---
-![image](images//Cart.jpg)
+![image](images//cart.jpg)
 <br>
